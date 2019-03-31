@@ -10,7 +10,8 @@
      profile: "{{ aws_profile_to_use }}"
   register: ec2_key_result
 
+
 # Save the key pair
-- copy: content="{{ ec2_key_result.key.private_key }}" dest="~/.ssh/cba-challenge-key.pem" mode=0600
+- copy: content="{{ ec2_key_result.key.private_key }}" dest=~/.ssh/{{ ec2_key_result.key.name }}.pem mode=0600
   when: ec2_key_result.changed
 
