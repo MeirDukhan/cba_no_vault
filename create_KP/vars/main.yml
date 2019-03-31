@@ -1,2 +1,3 @@
 ---
 aws_region: eu-west-2
+aws_profile_to_use: meir3

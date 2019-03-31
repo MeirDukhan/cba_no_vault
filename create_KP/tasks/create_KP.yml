@@ -3,10 +3,11 @@
 # Create a key pair
 - ec2_key:
      name: cba-challenge-key
-     aws_access_key: "{{ aws_access_key_id }}"
-     aws_secret_key: "{{ aws_secret_access_key }}" 
+     #aws_access_key: "{{ aws_access_key_id }}"
+     #aws_secret_key: "{{ aws_secret_access_key }}" 
      region: "{{ aws_region }}"
      force: yes
+     profile: "{{ aws_profile_to_use }}"
   register: ec2_key_result
 
 # Save the key pair
