@@ -1,0 +1,49 @@
+---
+
+# We're launching ansible-playbook from somewhere and we don't know what's its public IP, so 
+# Get our public IP, so it can be allowed in the the Security Group for SSH
+- command: curl --silent --fail http://checkip.amazonaws.com/
+  register: external_ip
+- set_fact: routable_ip="{{external_ip.stdout}}/32"
+#
+
+- ec2_group:
+
+        name: "{{ project_name}}_SG"
+        description: "{{ project_name}} Challenge security group"
+        region: "{{ aws_region }}" 
+        
+        aws_access_key: "{{ aws_access_key_id }}"
+        aws_secret_key: "{{ aws_secret_access_key }}"
+        vpc_id: "{{ vpc_id }}" 
+        
+        # Inboud rules
+        rules: 
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: "{{ routable_ip }}" 
+            group_desc: "SSH for the server running ansible-playbook" 
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: "{{ my_ip }}" 
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: "{{ routable_ip }}" 
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: "{{ my_ip }}" 
+        # Outbound rules
+        rules_egress: 
+          - proto: tcp
+            from_port: 443
+            to_port: 443
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+

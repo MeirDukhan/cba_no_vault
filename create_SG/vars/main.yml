@@ -1,0 +1,19 @@
+---
+aws_region: eu-west-2
+project_name: "CBA"
+
+# # mdukhan3 account -- vpc_id and subnet_id in for CBA challenge
+subnet_id: subnet-03b5ed8bed838f7a7
+vpc_id: vpc-025e4c83fe107c9ac
+
+# CBA VPC & Subnet ids 
+#vpc_id: vpc-01d874d70d60c9eaf
+#subnet_id: subnet-07e470c0e45c608be
+
+# My environment VPC & Subnet ids 
+#vpc_id: vpc-ba52c8d3
+# The subnet id must be associated with a route table with access to Internet (i.e. with an IGW) 
+#subnet_id: subnet-cb3cf4a2
+
+# my_ip: put the IP of your workstation here or define it at playbook runtime with the --extra-vars "my_ip=<my IP address>/32"
+#my_ip: 1.1.1.1/32

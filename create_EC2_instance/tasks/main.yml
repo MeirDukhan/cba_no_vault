@@ -1,0 +1,7 @@
+---
+# tasks file for create_EC2_instance
+- include_vars: aws_keys.yml
+
+- name: Create EC2 instance 
+  include_tasks: create_EC2_instance.yml
+

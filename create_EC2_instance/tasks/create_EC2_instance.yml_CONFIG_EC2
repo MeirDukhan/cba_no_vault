@@ -1,0 +1,73 @@
+- name: "create ec2 instance" 
+  ec2:
+        #key_name: "{{ ansible_srv_key }}" 
+        instance_type: "{{ instance_type }}" 
+        #profile: "meir"
+        aws_access_key: "{{ aws_access_key_id }}"
+        aws_secret_key: "{{ aws_secret_access_key }}"
+        keypair: "cba-challenge-key" 
+
+        image: "{{ ami_image }}" 
+        wait: no
+        group: "{{ security_group }}"
+        count: 1
+        region: "{{ aws_region }}" 
+        vpc_subnet_id: "{{ subnet_id }}" 
+        assign_public_ip: yes
+        #
+        # Set EnvName tag
+        instance_tags: 
+           EnvName: "Test Environment" 
+  register: ec2
+        # Install httpd and setup a test page showing the private IP of the EC2 instance
+        # Check alternative for this peice of 'user_data' 
+        #user_data: | 
+        #           #!/bin/sh 
+        #           sudo yum -y install php httpd 
+        #           sudo bash -c "/bin/hostname -I > /var/www/html/index.html"
+        #           service httpd start 
+        #           sudo chkconfig httpd on
+        #           sudo bash -c "echo '<?php phpinfo(); ?>' >  /var/www/html/phpinfo.php"
+     #register:  ec2
+     #
+
+- name: Add new instance to host group
+  add_host:
+    hostname: "{{ item.public_ip }}"
+    groupname: launched
+  with_items: "{{ ec2.instances }}"
+
+- name: Wait for SSH to come up
+  delegate_to: "{{ item.public_ip }}"
+  #remote_user: 'ec2-user'
+  wait_for_connection:
+    delay: 60
+    timeout: 320
+  with_items: "{{ ec2.instances }}"
+ 
+- name: Configure instance(s) Part 1 
+  #host: launched
+  #become: True
+  #gather_facts: True
+  #remote_user: 'ec2-user'
+  yum:
+    name: Install httpd
+    state: present
+  with_items: "{{ ec2.instances }}"
+
+- name: Configure instance(s) Part 2 
+  #remote_user: 'ec2-user'
+  service:  
+    name: httpd
+    state: started
+    enabled: yes
+  with_items: "{{ ec2.instances }}"
+
+    #- name: Install httpd and PHP
+    #  yum:
+    #    name: Install httpd
+    #    state: present
+    #- service:  
+    #    name: httpd
+    #    state: started
+    #    enabled: yes

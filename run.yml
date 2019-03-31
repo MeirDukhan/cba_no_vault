@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  roles:
+    - create_KP
+    - create_SG
+    - create_EC2_instance

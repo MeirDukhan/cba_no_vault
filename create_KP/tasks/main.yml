@@ -1,0 +1,9 @@
+---
+# tasks file for create_KP
+- include_vars: aws_keys.yml
+  
+- name: Create KP 
+
+  include_tasks: create_KP.yml
+
+

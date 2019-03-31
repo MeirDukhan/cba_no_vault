@@ -1,0 +1,15 @@
+---
+
+# Create a key pair
+- ec2_key:
+     name: cba-challenge-key
+     aws_access_key: "{{ aws_access_key_id }}"
+     aws_secret_key: "{{ aws_secret_access_key }}" 
+     region: "{{ aws_region }}"
+     force: yes
+  register: ec2_key_result
+
+# Save the key pair
+- copy: content="{{ ec2_key_result.key.private_key }}" dest="~/.ssh/cba-challenge-key.pem" mode=0600
+  when: ec2_key_result.changed
+
