@@ -19,7 +19,7 @@ Assuming, the subnet_id is a **public subnet**, i.e. routable to the Internet.
 
 Not given
 --------- 
-You will need to create your own aws_keys.yml vault file with the appropriate credentials.
+You will need to have your ~/.aws/credentials set with appropriate credentials.
 
 Requirements
 ------------
@@ -69,12 +69,11 @@ Running the Playbook
 	$ git clone https://github.com/MeirDukhan/cba.git
 	$ cd ~/cba 
 
-	$ Setup an ansible vault with file name: aws_keys.yml 
-	ansible-vault create aws_keys.yml 
-	echo 'my-ansible-vault-password' > vault-pass.txt && chmod 400 vault-pass.txt  
+	$ Eventually, run 
+	aws configure 
 
 
-	$ ansible-playbook run.yml --vault-password-file vault-pass.txt --extra-vars 'my_ip=\<IP of my workstation>/32'
+	$ ansible-playbook run.yml --extra-vars 'my_ip=\<IP of my workstation>/32'
 
 A log is available in ~/ansible.log 
 
