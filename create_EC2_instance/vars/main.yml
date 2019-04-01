@@ -1,6 +1,6 @@
 --- 
 aws_region: eu-west-2
-project_name: "CBA"
+project_name: "CBA_No_Vault"
 
 instance_type: t2.micro
 ami_image: ami-01419b804382064e4
@@ -9,8 +9,11 @@ assign_public_ip: yes
 security_group: "{{ project_name}}_SG"
 #
 # mdukhan3 account -- vpc_id and subnet_id in for CBA challenge
-subnet_id: subnet-03b5ed8bed838f7a7
-vpc_id: vpc-025e4c83fe107c9ac
+subnet_id: subnet-0719532b083bebfc1
+vpc_id: vpc-04fd2609bb9adfe7f
+
+# Profile to use (in ~/.aws/credentials) 
+aws_profile_to_use: "meir3" 
 
 # Original vpc_id and subnet_id in for CBA challenge
 #subnet_id: subnet-07e470c0e45c608be

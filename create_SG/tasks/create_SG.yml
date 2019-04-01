@@ -12,9 +12,9 @@
         name: "{{ project_name}}_SG"
         description: "{{ project_name}} Challenge security group"
         region: "{{ aws_region }}" 
-        
-        aws_access_key: "{{ aws_access_key_id }}"
-        aws_secret_key: "{{ aws_secret_access_key }}"
+        profile: "{{ aws_profile_to_use }}" 
+        #aws_access_key: "{{ aws_access_key_id }}"
+        #aws_secret_key: "{{ aws_secret_access_key }}"
         vpc_id: "{{ vpc_id }}" 
         
         # Inboud rules
